@@ -6,6 +6,8 @@
 package id
 
 import (
+	"strings"
+
 	shortid "github.com/jasonsoft/go-short-id"
 )
 
@@ -17,14 +19,5 @@ func GenShortID() string {
 		EndWithHost:   false,
 	}
 
-	return toLower(shortid.Generate(opt))
-}
-
-func toLower(ss string) string {
-	var lower string
-	for _, s := range ss {
-		lower += string(s | ' ')
-	}
-
-	return lower
+	return strings.ToLower(shortid.Generate(opt))
 }

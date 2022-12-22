@@ -6,7 +6,6 @@
 package id
 
 import (
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -14,7 +13,6 @@ import (
 
 func TestGenShortID(t *testing.T) {
 	shortID := GenShortID()
-	fmt.Println(shortID)
 	assert.NotEqual(t, "", shortID)
 	assert.Equal(t, 6, len(shortID))
 }
