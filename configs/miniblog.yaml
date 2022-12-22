@@ -3,6 +3,10 @@
 # license that can be found in the LICENSE file. The original repo for
 # this file is https://github.com/marmotedu/miniblog.
 
+# 通用配置
+runmode: debug               # Gin 开发模式, 可选值有：debug, release, test
+addr: :8080                  # HTTP 服务器监听地址
+
 # MySQL 数据库相关配置
 db:
   host: 127.0.0.1  # MySQL 机器 IP 和端口，默认 127.0.0.1:3306
