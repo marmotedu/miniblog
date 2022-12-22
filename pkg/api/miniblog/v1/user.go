@@ -59,3 +59,10 @@ type ListUserResponse struct {
 	TotalCount int64       `json:"totalCount"`
 	Users      []*UserInfo `json:"users"`
 }
+
+// UpdateUserRequest 指定了 `PUT /v1/users/{name}` 接口的请求参数.
+type UpdateUserRequest struct {
+	Nickname *string `json:"nickname" valid:"stringlength(1|255)"`
+	Email    *string `json:"email" valid:"email"`
+	Phone    *string `json:"phone" valid:"stringlength(11|11)"`
+}
