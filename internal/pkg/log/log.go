@@ -14,10 +14,24 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+// Logger 定义了 miniblog 项目的日志接口. 该接口只包含了支持的日志记录方法.
+type Logger interface {
+	Debugw(msg string, keysAndValues ...interface{})
+	Infow(msg string, keysAndValues ...interface{})
+	Warnw(msg string, keysAndValues ...interface{})
+	Errorw(msg string, keysAndValues ...interface{})
+	Panicw(msg string, keysAndValues ...interface{})
+	Fatalw(msg string, keysAndValues ...interface{})
+	Sync()
+}
+
 // zapLogger 是 Logger 接口的具体实现. 它底层封装了 zap.Logger.
 type zapLogger struct {
 	z *zap.Logger
 }
+
+// 确保 zapLogger 实现了 Logger 接口. 以下变量赋值，可以使错误在编译期被发现.
+var _ Logger = &zapLogger{}
 
 var (
 	mu sync.Mutex
@@ -91,4 +105,65 @@ func NewLogger(opts *Options) *zapLogger {
 	zap.RedirectStdLog(z)
 
 	return logger
+}
+
+// Sync 调用底层 zap.Logger 的 Sync 方法，将缓存中的日志刷新到磁盘文件中. 主程序需要在退出前调用 Sync.
+func Sync() { std.Sync() }
+
+func (l *zapLogger) Sync() {
+	_ = l.z.Sync()
+}
+
+// Debugw 输出 debug 级别的日志.
+func Debugw(msg string, keysAndValues ...interface{}) {
+	std.z.Sugar().Debugw(msg, keysAndValues...)
+}
+
+func (l *zapLogger) Debugw(msg string, keysAndValues ...interface{}) {
+	l.z.Sugar().Debugw(msg, keysAndValues...)
+}
+
+// Infow 输出 info 级别的日志.
+func Infow(msg string, keysAndValues ...interface{}) {
+	std.z.Sugar().Infow(msg, keysAndValues...)
+}
+
+func (l *zapLogger) Infow(msg string, keysAndValues ...interface{}) {
+	l.z.Sugar().Infow(msg, keysAndValues...)
+}
+
+// Warnw 输出 warning 级别的日志.
+func Warnw(msg string, keysAndValues ...interface{}) {
+	std.z.Sugar().Warnw(msg, keysAndValues...)
+}
+
+func (l *zapLogger) Warnw(msg string, keysAndValues ...interface{}) {
+	l.z.Sugar().Warnw(msg, keysAndValues...)
+}
+
+// Errorw 输出 error 级别的日志.
+func Errorw(msg string, keysAndValues ...interface{}) {
+	std.z.Sugar().Errorw(msg, keysAndValues...)
+}
+
+func (l *zapLogger) Errorw(msg string, keysAndValues ...interface{}) {
+	l.z.Sugar().Errorw(msg, keysAndValues...)
+}
+
+// Panicw 输出 panic 级别的日志.
+func Panicw(msg string, keysAndValues ...interface{}) {
+	std.z.Sugar().Panicw(msg, keysAndValues...)
+}
+
+func (l *zapLogger) Panicw(msg string, keysAndValues ...interface{}) {
+	l.z.Sugar().Panicw(msg, keysAndValues...)
+}
+
+// Fatalw 输出 fatal 级别的日志.
+func Fatalw(msg string, keysAndValues ...interface{}) {
+	std.z.Sugar().Fatalw(msg, keysAndValues...)
+}
+
+func (l *zapLogger) Fatalw(msg string, keysAndValues ...interface{}) {
+	l.z.Sugar().Fatalw(msg, keysAndValues...)
 }
