@@ -7,6 +7,9 @@ ROOT_DIR := $(abspath $(shell cd $(COMMON_SELF_DIR)/ && pwd -P))
 # 构建产物、临时文件存放目录
 OUTPUT_DIR := $(ROOT_DIR)/_output
 
+# Protobuf 文件存放路径
+APIROOT=$(ROOT_DIR)/pkg/proto
+
 # ==============================================================================
 # 定义版本相关变量
 
@@ -76,3 +79,12 @@ ca: ## 生成 CA 文件
 		-subj "/C=CN/ST=Guangdong/L=Shenzhen/O=serverdevops/OU=serverit/CN=127.0.0.1/emailAddress=nosbelm@qq.com" # 6. 生成服务端向 CA 申请签名的 CSR
 	@openssl x509 -req -CA $(OUTPUT_DIR)/cert/ca.crt -CAkey $(OUTPUT_DIR)/cert/ca.key \
 		-CAcreateserial -in $(OUTPUT_DIR)/cert/server.csr -out $(OUTPUT_DIR)/cert/server.crt # 7. 生成服务端带有 CA 签名的证书
+
+protoc: ## 编译 protobuf 文件.
+	@echo "===========> Generate protobuf files"
+	@protoc                                            \
+		--proto_path=$(APIROOT)                          \
+		--proto_path=$(ROOT_DIR)/third_party             \
+		--go_out=paths=source_relative:$(APIROOT)        \
+		--go-grpc_out=paths=source_relative:$(APIROOT)   \
+		$(shell find $(APIROOT) -name *.proto)

@@ -47,3 +47,15 @@ type UserInfo struct {
 	CreatedAt string `json:"createdAt"`
 	UpdatedAt string `json:"updatedAt"`
 }
+
+// ListUserRequest 指定了 `GET /v1/users` 接口的请求参数.
+type ListUserRequest struct {
+	Offset int `form:"offset"`
+	Limit  int `form:"limit"`
+}
+
+// ListUserResponse 指定了 `GET /v1/users` 接口的返回参数.
+type ListUserResponse struct {
+	TotalCount int64       `json:"totalCount"`
+	Users      []*UserInfo `json:"users"`
+}

@@ -14,6 +14,10 @@ tls:
   cert: ./_output/cert/server.crt # 证书
   key: ./_output/cert/server.key # 证书 Key 文件
 
+# GRPC 相关配置
+grpc:
+  addr: :9090 # GRPC 服务器监听地址
+
 # MySQL 数据库相关配置
 db:
   host: 127.0.0.1  # MySQL 机器 IP 和端口，默认 127.0.0.1:3306

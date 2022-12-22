@@ -1,0 +1,56 @@
+// Copyright 2022 Innkeeper Belm(孔令飞) <nosbelm@qq.com>. All rights reserved.
+// Use of this source code is governed by a MIT style
+// license that can be found in the LICENSE file. The original repo for
+// this file is https://github.com/marmotedu/miniblog.
+
+syntax = "proto3"; // 告诉编译器此文件使用什么版本的语法
+
+package v1;
+
+import "google/protobuf/timestamp.proto";
+
+option go_package = "github.com/marmotedu/miniblog/pkg/proto/miniblog/v1";
+
+// MiniBlog 定义了一个 MiniBlog RPC 服务.
+service MiniBlog {
+  rpc ListUser(ListUserRequest) returns (ListUserResponse) {}
+}
+
+message UserInfo {
+  string username = 1;
+  string nickname = 2;
+  string email = 3;
+  string phone = 4;
+  int64 postCount = 5;
+  google.protobuf.Timestamp createdAt = 6;
+  google.protobuf.Timestamp updatedAt = 7;
+}
+
+// ListUserRequest 指定了 `ListUser` 接口的请求参数，相当于 HTTP Request 并对每个属性都定义数据类型.
+// 需要为每个属性分配一个唯一编号，称为标记。此标记由 protobuf 用于表示属性，而不是使用属性名称.
+// 因此，在 JSON 中我们每次都需要传递属性名称 name，而 protobuf 将使用数字 1 来表示 name.
+message ListUserRequest {
+  int64 limit = 1;
+  int64 offset = 2;
+}
+
+
+// ListUserResponse 指定了 `GET /v1/users` 接口的返回参数，相当于 HTTP Response.
+message ListUserResponse {
+  int64 totalCount = 1;
+  repeated UserInfo Users = 2;
+}
+
+// 示例 message 定义，用来展示 protobuf 修饰符，编译后的效果
+message ModifierExample {
+  reserved 2, 15 to 25; // 保留标识符(reserved)可以避免其他人在未来使用不该使用的标志号
+  string username = 1;
+  optional string nickname = 3; // 可选值
+  bool hasEmail = 4;
+  repeated string phones = 5; // 任意数量（包括0），可以看成是一个数组.
+  bytes content = 6;
+  int32 money  = 7;
+  int64 count = 8;
+  map<string, int64> address = 9; // 编译后：`Address   map[string]string`
+  google.protobuf.Timestamp createdAt = 10; 
+}
