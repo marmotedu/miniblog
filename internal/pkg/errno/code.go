@@ -14,4 +14,10 @@ var (
 
 	// ErrPageNotFound 表示路由不匹配错误.
 	ErrPageNotFound = &Errno{HTTP: 404, Code: "ResourceNotFound.PageNotFound", Message: "Page not found."}
+
+	// ErrBind 表示参数绑定错误.
+	ErrBind = &Errno{HTTP: 400, Code: "InvalidParameter.BindError", Message: "Error occurred while binding the request body to the struct."}
+
+	// ErrInvalidParameter 表示所有验证失败的错误.
+	ErrInvalidParameter = &Errno{HTTP: 400, Code: "InvalidParameter", Message: "Parameter verification failed."}
 )
