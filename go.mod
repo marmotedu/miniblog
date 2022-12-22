@@ -5,7 +5,8 @@ go 1.19
 require (
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d
 	github.com/gin-gonic/gin v1.8.1
-	github.com/google/uuid v1.3.0
+	github.com/golang-jwt/jwt/v4 v4.4.3
+	github.com/google/uuid v1.1.2
 	github.com/gosuri/uitable v0.0.4
 	github.com/jinzhu/copier v0.3.5
 	github.com/spf13/cobra v1.6.1
@@ -13,7 +14,7 @@ require (
 	github.com/spf13/viper v1.14.0
 	go.uber.org/automaxprocs v1.5.1
 	go.uber.org/zap v1.21.0
-	golang.org/x/crypto v0.1.0
+	golang.org/x/crypto v0.0.0-20220525230936-793ad666bf5e
 	gorm.io/driver/mysql v1.4.4
 	gorm.io/gorm v1.24.2
 )

@@ -13,6 +13,7 @@ import (
 	"github.com/marmotedu/miniblog/internal/pkg/core"
 	"github.com/marmotedu/miniblog/internal/pkg/errno"
 	"github.com/marmotedu/miniblog/internal/pkg/log"
+	mw "github.com/marmotedu/miniblog/internal/pkg/middleware"
 )
 
 // installRouters 安装 miniblog 接口路由.
@@ -31,6 +32,8 @@ func installRouters(g *gin.Engine) error {
 
 	uc := user.New(store.S)
 
+	g.POST("/login", uc.Login)
+
 	// 创建 v1 路由分组
 	v1 := g.Group("/v1")
 	{
@@ -38,6 +41,8 @@ func installRouters(g *gin.Engine) error {
 		userv1 := v1.Group("/users")
 		{
 			userv1.POST("", uc.Create)
+			userv1.PUT(":name/change-password", uc.ChangePassword)
+			userv1.Use(mw.Authn())
 		}
 	}
 
