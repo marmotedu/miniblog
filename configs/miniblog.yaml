@@ -8,6 +8,12 @@ runmode: debug               # Gin 开发模式, 可选值有：debug, release, 
 addr: :8080                  # HTTP 服务器监听地址
 jwt-secret: Rtg8BPKNEf2mB4mgvKONGPZZQSaJWNLijxR42qRgq0iBb5 # JWT 签发密钥
 
+# HTTPS 服务器相关配置
+tls:
+  addr: :8443 # HTTPS 服务器监听地址
+  cert: ./_output/cert/server.crt # 证书
+  key: ./_output/cert/server.key # 证书 Key 文件
+
 # MySQL 数据库相关配置
 db:
   host: 127.0.0.1  # MySQL 机器 IP 和端口，默认 127.0.0.1:3306
