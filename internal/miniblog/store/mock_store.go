@@ -14,8 +14,9 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
-	model "github.com/marmotedu/miniblog/internal/pkg/model"
 	gorm "gorm.io/gorm"
+
+	model "github.com/marmotedu/miniblog/internal/pkg/model"
 )
 
 // MockIStore is a mock of IStore interface.
