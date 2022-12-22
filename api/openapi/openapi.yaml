@@ -1,0 +1,638 @@
+# Copyright 2022 Innkeeper Belm(孔令飞) <nosbelm@qq.com>. All rights reserved.
+# Use of this source code is governed by a MIT style
+# license that can be found in the LICENSE file. The original repo for
+# this file is https://github.com/marmotedu/miniblog.
+
+swagger: "2.0"
+servers:
+  - url: http://127.0.0.1:8080/v1
+    description: development server
+info:
+  version: "1.0.0"
+  title: miniblog api definition
+  description: The API for the miniblog project
+  contact:
+    name: Innkeeper Belm(孔令飞)
+    email: nosbelm@qq.com
+    url: https://github.com/colin404
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+paths:
+  /login:
+    post:
+      tags:
+        - users
+      description: user login
+      operationId: login
+      requestBody:
+        description: login to miniblog platform
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+      responses:
+        '200':
+          description: successfully login
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          description: request failed due to client-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '500':
+          description: request failed due to server-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+  /users:
+    post:
+      tags:
+        - users
+      description: create user
+      operationId: createUser
+      requestBody:
+        description: create user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+      responses:
+        '200':
+          description: successfully create user
+        '400':
+          description: request failed due to client-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '500':
+          description: request failed due to server-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+    get:
+      tags:
+        - users
+      description: list users
+      operationId: listUsers
+      parameters:
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successfully list users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListUserResponse'
+        '400':
+          description: request failed due to client-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '500':
+          description: request failed due to server-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+  /users/{name}:
+    get:
+      tags:
+        - users
+      description: get user
+      operationId: getUser
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successfully get user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUserResponse'
+        '400':
+          description: request failed due to client-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '500':
+          description: request failed due to server-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+    delete:
+      tags:
+        - users
+      description: delete user
+      operationId: deleteUser
+      parameters:
+        - name: name
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successfully delete user
+        '400':
+          description: request failed due to client-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '500':
+          description: request failed due to server-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+    put:
+      tags:
+        - users
+      description: update user
+      operationId: updateUser
+      requestBody:
+        description: update user
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateUserRequest'
+      responses:
+        '200':
+          description: successfully update user
+        '400':
+          description: request failed due to client-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '500':
+          description: request failed due to server-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+  /users/{name}/change-password:
+    put:
+      tags:
+        - users
+      description: update user password
+      operationId: changePassword
+      requestBody:
+        description: update user password
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChangePasswordRequest'
+      responses:
+        '200':
+          description: successfully update user password
+        '400':
+          description: request failed due to client-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '500':
+          description: request failed due to server-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+  /posts:
+    post:
+      tags:
+        - posts
+      description: create blog post
+      operationId: createPost
+      requestBody:
+        description: create post
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePostRequest'
+      responses:
+        '200':
+          description: successfully create post
+        '400':
+          description: request failed due to client-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '500':
+          description: request failed due to server-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+    get:
+      tags:
+        - posts
+      description: list posts
+      operationId: listPosts
+      parameters:
+        - name: offset
+          in: query
+          schema:
+            type: integer
+            format: int64
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: successfully list posts
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListPostResponse'
+        '400':
+          description: request failed due to client-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '500':
+          description: request failed due to server-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+    delete:
+      tags:
+        - posts
+      description: delete posts
+      operationId: deletePosts
+      parameters:
+        - name: postID
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              example: post-22z9jl
+      responses:
+        '200':
+          description: successfully delete posts
+        '400':
+          description: request failed due to client-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '500':
+          description: request failed due to server-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+  /posts/{postID}:
+    get:
+      tags:
+        - posts
+      description: get post
+      operationId: getPost
+      parameters:
+        - name: postID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successfully get post
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetPostResponse'
+        '400':
+          description: request failed due to client-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '500':
+          description: request failed due to server-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+    delete:
+      tags:
+        - posts
+      description: delete post
+      operationId: deletePost
+      parameters:
+        - name: postID
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successfully delete post
+        '400':
+          description: request failed due to client-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '500':
+          description: request failed due to server-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+    put:
+      tags:
+        - posts
+      description: update post
+      operationId: updatePost
+      requestBody:
+        description: update post
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePostRequest'
+      responses:
+        '200':
+          description: successfully update post
+        '400':
+          description: request failed due to client-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+        '500':
+          description: request failed due to server-side problem
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrResponse'
+components:
+  schemas:
+    LoginRequest:
+      required:
+        - username
+        - password
+      type: object
+      properties:
+        username:
+          type: string
+          example: belm
+        password:
+          type: string
+          format: password
+          example: miniblog1234
+    LoginResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: xxx.yyy.zzz
+    CreateUserRequest:
+      required:
+        - username
+        - password
+        - nickname
+        - email
+        - phone
+      type: object
+      properties:
+        username:
+          type: string
+          example: belm
+        password:
+          type: string
+          format: password
+          example: miniblog1234
+        nickname:
+          type: string
+          example: belm
+        email:
+          type: string
+          format: email
+          example: nosbelm@qq.com
+        phone:
+          type: string
+          example: 18128845xxx
+    GetUserResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          example: belm
+        password:
+          type: string
+          format: password
+          example: miniblog1234
+        nickname:
+          type: string
+          example: belm
+        email:
+          type: string
+          format: email
+          example: nosbelm@qq.com
+        phone:
+          type: string
+          example: 18128845xxx
+        createdAt:
+          type: string
+          format: date-time
+          example: 2022-11-14 18:00:32
+        updatedAt:
+          type: string
+          format: date-time
+          example: 2022-11-14 18:00:35
+    ChangePasswordRequest:
+      required:
+        - oldPassword
+        - newPassword
+      type: object
+      properties:
+        oldPassword:
+          type: string
+          format: password
+          example: miniblog1234
+        newPassword:
+          type: string
+          format: password
+          example: miniblog12345
+    UpdateUserRequest:
+      type: object
+      properties:
+        nickname:
+          type: string
+          example: belm
+        email:
+          type: string
+          format: email
+          example: nosbelm@qq.com
+        phone:
+          type: string
+          example: 18128845xxx
+    ListUserResponse:
+      type: object
+      properties:
+        totalCount:
+          type: integer
+          format: int64
+          example: 3
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserInfo'
+    UserInfo:
+      type: object
+      properties:
+        username:
+          type: string
+          example: belm
+        password:
+          type: string
+          format: password
+          example: miniblog1234
+        nickname:
+          type: string
+          example: belm
+        email:
+          type: string
+          format: email
+          example: nosbelm@qq.com
+        phone:
+          type: string
+          example: 18128845xxx
+        createdAt:
+          type: string
+          format: date-time
+          example: 2022-11-14 18:00:32
+        updatedAt:
+          type: string
+          format: date-time
+          example: 2022-11-14 18:00:35
+    CreatePostRequest:
+      required:
+        - title
+        - content
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'introduction to a good go practical project: miniblog'
+        content:
+          type: string
+          example: "Details see https://github.com/marmotedu/miniblog/blob/master/README.md"
+    CreatePostResponse:
+      type: object
+      properties:
+        postID:
+          type: string
+          example: post-22z9jl
+    PostInfo:
+      type: object
+      properties:
+        username:
+          type: string
+          example: belm
+        postID:
+          type: string
+          example: post-22z9jl
+        title:
+          type: string
+          example: 'introduction to a good go practical project: miniblog'
+        content:
+          type: string
+          example: "Details see https://github.com/marmotedu/miniblog/blob/master/README.md"
+        createdAt:
+          type: string
+          format: date-time
+          example: 2022-11-14 18:00:32
+        updatedAt:
+          type: string
+          format: date-time
+          example: 2022-11-14 18:00:35
+    GetPostResponse:
+      type: object
+      properties:
+        username:
+          type: string
+          example: belm
+        postID:
+          type: string
+          example: post-22z9jl
+        title:
+          type: string
+          example: 'introduction to a good go practical project: miniblog'
+        content:
+          type: string
+          example: "Details see https://github.com/marmotedu/miniblog/blob/master/README.md"
+        createdAt:
+          type: string
+          format: date-time
+          example: 2022-11-14 18:00:32
+        updatedAt:
+          type: string
+          format: date-time
+          example: 2022-11-14 18:00:35
+    UpdatePostRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          example: 'introduction to a good go practical project: miniblog'
+        content:
+          type: string
+          example: "Details see https://github.com/marmotedu/miniblog/blob/master/README.md"
+    ListPostResponse:
+      type: object
+      properties:
+        totalCount:
+          type: integer
+          format: int64
+          example: 3
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/PostInfo'
+    ErrResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int64
+          example: 10001/20002
+        message:
+          type: string
+          example: "Internal server error./Validation failed."
