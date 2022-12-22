@@ -85,6 +85,11 @@ Find more miniblog information at:
 
 // run 函数是实际的业务代码入口函数.
 func run() error {
+	// 初始化 store 层
+	if err := initStore(); err != nil {
+		return err
+	}
+
 	// 设置 Gin 模式
 	gin.SetMode(viper.GetString("runmode"))
 
