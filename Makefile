@@ -37,7 +37,7 @@ GO_LDFLAGS += \
 # ==============================================================================
 # 定义 Makefile all 伪目标，执行 `make` 时，会默认会执行 all 伪目标
 .PHONY: all
-all: add-copyright format build
+all: add-copyright format cover build
 
 # ==============================================================================
 # 定义其他需要的伪目标
@@ -88,3 +88,17 @@ protoc: ## 编译 protobuf 文件.
 		--go_out=paths=source_relative:$(APIROOT)        \
 		--go-grpc_out=paths=source_relative:$(APIROOT)   \
 		$(shell find $(APIROOT) -name *.proto)
+
+.PHONY: test
+test: # 执行单元测试.
+	@echo "===========> Run unit test"
+	@go test -v -cover -coverprofile=_output/coverage.out `go list ./...`
+	@sed -i '/mock_.*.go/d' _output/coverage.out # 从 coverage 中删除mock_.*.go 文件
+
+.PHONY: cover
+cover: test # 执行单元测试，并校验覆盖率阈值.
+	@go tool cover -func=_output/coverage.out | awk -v target=30 -f ./scripts/coverage.awk
+
+.PHONY: deps
+deps: ## 安装依赖，例如：生成需要的代码等.
+	@go generate $(ROOT_DIR)/...

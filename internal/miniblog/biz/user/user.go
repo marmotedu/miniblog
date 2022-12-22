@@ -134,11 +134,19 @@ func (b *userBiz) List(ctx context.Context, offset, limit int) (*v1.ListUserResp
 	users := make([]*v1.UserInfo, 0, len(list))
 	for _, item := range list {
 		user := item
+
+		count, _, err := b.ds.Posts().List(ctx, user.Username, 0, 0)
+		if err != nil {
+			log.C(ctx).Errorw("Failed to list posts", "err", err)
+			return nil, err
+		}
+
 		users = append(users, &v1.UserInfo{
 			Username:  user.Username,
 			Nickname:  user.Nickname,
 			Email:     user.Email,
 			Phone:     user.Email,
+			PostCount: count,
 			CreatedAt: user.CreatedAt.Format("2006-01-02 15:04:05"),
 			UpdatedAt: user.UpdatedAt.Format("2006-01-02 15:04:05"),
 		})

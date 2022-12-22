@@ -5,6 +5,8 @@
 
 package biz
 
+//go:generate mockgen -destination mock_biz.go -package biz github.com/marmotedu/miniblog/internal/miniblog/biz IBiz
+
 import (
 	"github.com/marmotedu/miniblog/internal/miniblog/biz/post"
 	"github.com/marmotedu/miniblog/internal/miniblog/biz/user"
