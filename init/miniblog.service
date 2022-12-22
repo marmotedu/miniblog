@@ -1,0 +1,15 @@
+[Unit]
+Description=APIServer for blog platform.
+Documentation=https://github.com/marmotedu/miniblog/blob/master/init/README.md
+
+[Service]
+WorkingDirectory=/data/miniblog
+ExecStartPre=/usr/bin/mkdir -p /data/miniblog
+ExecStartPre=/usr/bin/mkdir -p /var/log/miniblog
+ExecStart=/opt/miniblog/bin/miniblog --config=/etc/miniblog/miniblog.yaml
+Restart=always
+RestartSec=5
+StartLimitInterval=0
+
+[Install]
+WantedBy=multi-user.target
