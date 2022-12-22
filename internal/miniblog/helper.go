@@ -64,7 +64,7 @@ func initConfig() {
 	}
 
 	// 打印 viper 当前使用的配置文件，方便 Debug.
-	log.Infow("Using config file", "file", viper.ConfigFileUsed())
+	log.Debugw("Using config file", "file", viper.ConfigFileUsed())
 }
 
 // logOptions 从 viper 中读取日志配置，构建 `*log.Options` 并返回.
