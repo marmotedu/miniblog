@@ -37,7 +37,7 @@ GO_LDFLAGS += \
 # ==============================================================================
 # 定义 Makefile all 伪目标，执行 `make` 时，会默认会执行 all 伪目标
 .PHONY: all
-all: add-copyright format cover build
+all: add-copyright format lint cover build
 
 # ==============================================================================
 # 定义其他需要的伪目标
@@ -102,3 +102,8 @@ cover: test # 执行单元测试，并校验覆盖率阈值.
 .PHONY: deps
 deps: ## 安装依赖，例如：生成需要的代码等.
 	@go generate $(ROOT_DIR)/...
+
+.PHONY: lint
+lint: ## 执行静态代码检查.
+	@echo "===========> Run golangci to lint source codes"
+	@golangci-lint run -c ./.golangci.yaml ./...
