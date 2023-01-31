@@ -14,24 +14,24 @@ API 性能测试脚本，会自动执行 wrk 命令，采集数据、分析数�
 脚本会生成 .dat 的数据文件，每列含义为：并发数 QPS 平均响应时间 成功率
 
 使用方式 (对比2次测试结果)
-1. 性能测试：./wrktest.sh iam-apiserver http://127.0.0.1:8080/healthz
-2. 执行命令： ./wrktest.sh diff apiserver.dat http.dat
+1. 性能测试：./wrktest.sh http://127.0.0.1:8080/healthz
+2. 执行命令： ./wrktest.sh diff miniblog.dat http.dat
 
 > Note: 需要确保系统安装了 wrk 和 gnuplot 工具
 EOF
 
-iamroot="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
-wrkdir="${iamroot}/_output/wrk"
-jobname="apiserver"
+mbroot="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd -P)"
+wrkdir="${mbroot}/_output/wrk"
+jobname="miniblog"
 duration="300s"
 threads=$((3 * `grep -c processor /proc/cpuinfo`))
 
-source "${iamroot}/scripts/lib/color.sh"
+source "${mbroot}/scripts/lib/color.sh"
 
 # Set wrk options
 mb::wrk::setup() {
   concurrent="200 500 1000 3000 5000 10000 15000 20000 25000 50000"
-  cmd="wrk -t${threads} -d${duration} -T30s --latency"
+  cmd="wrk -t${threads} -d${duration} -T30s --latency -H\"Authorization: Bearer ${TOKEN}\""
 }
 
 # Print usage infomation
@@ -47,7 +47,7 @@ Performance automation test script.
 
 OPTIONS:
   -h                     Usage information
-  -n                     Performance test task name, default: apiserver
+  -n                     Performance test task name, default: miniblog
   -d                     Directory used to store performance data and gnuplot graphic, default: _output/wrk
 
 Reprot bugs to <colin404@foxmail.com>.
