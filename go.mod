@@ -7,6 +7,7 @@ require (
 	github.com/asaskevich/govalidator v0.0.0-20210307081110-f21760c49a8d
 	github.com/casbin/casbin/v2 v2.58.0
 	github.com/casbin/gorm-adapter/v3 v3.13.0
+	github.com/gin-contrib/pprof v1.4.0
 	github.com/gin-gonic/gin v1.8.1
 	github.com/golang-jwt/jwt/v4 v4.4.3
 	github.com/golang/mock v1.4.4
