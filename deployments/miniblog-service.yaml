@@ -1,0 +1,28 @@
+# Copyright 2020 Lingfei Kong <colin404@foxmail.com>. All rights reserved.
+# Use of this source code is governed by a MIT style
+# license that can be found in the LICENSE file.
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: miniblog
+  name: miniblog
+spec:
+  ports:
+  - name: https
+    protocol: TCP
+    port: 8443
+    targetPort: 8443
+  - name: http
+    protocol: TCP
+    port: 8080
+    targetPort: 8080
+  - name: rpc
+    protocol: TCP
+    port: 9090
+    targetPort: 9090
+  selector:
+    app: miniblog
+  sessionAffinity: None
+  type: ClusterIP

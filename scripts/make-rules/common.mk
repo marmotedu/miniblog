@@ -15,6 +15,12 @@ ROOT_PACKAGE=github.com/marmotedu/miniblog
 # Protobuf 文件存放路径
 APIROOT=$(ROOT_DIR)/pkg/proto
 
+ifeq ($(origin TMP_DIR),undefined)
+TMP_DIR := $(OUTPUT_DIR)/tmp
+$(shell mkdir -p $(TMP_DIR))
+endif
+
+
 # ==============================================================================
 # 定义版本相关变量
 
@@ -51,9 +57,12 @@ ifeq ($(origin PLATFORM), undefined)
 		GOARCH := $(shell go env GOARCH)
 	endif
 	PLATFORM := $(GOOS)_$(GOARCH)
+	# 构建镜像时，使用 linux 作为默认的 OS
+	IMAGE_PLAT := linux_$(GOARCH)
 else
 	GOOS := $(word 1, $(subst _, ,$(PLATFORM)))
 	GOARCH := $(word 2, $(subst _, ,$(PLATFORM)))
+	IMAGE_PLAT := $(PLATFORM)
 endif
 
 # Makefile 设置

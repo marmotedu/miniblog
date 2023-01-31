@@ -1,0 +1,44 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: miniblog
+data:
+  miniblog.yaml: |
+    # Copyright 2022 Innkeeper Belm(孔令飞) <nosbelm@qq.com>. All rights reserved.
+    # Use of this source code is governed by a MIT style
+    # license that can be found in the LICENSE file. The original repo for
+    # this file is https://github.com/marmotedu/miniblog.
+
+    # 通用配置
+    runmode: debug               # Gin 开发模式, 可选值有：debug, release, test
+    addr: :8080                  # HTTP 服务器监听地址
+    jwt-secret: Rtg8BPKNEf2mB4mgvKONGPZZQSaJWNLijxR42qRgq0iBb5 # JWT 签发密钥
+
+    # HTTPS 服务器相关配置
+    tls:
+      addr: :8443 # HTTPS 服务器监听地址
+      cert: ./_output/cert/server.crt # 证书
+      key: ./_output/cert/server.key # 证书 Key 文件
+
+    # GRPC 相关配置
+    grpc:
+      addr: :9090 # GRPC 服务器监听地址
+
+    # MySQL 数据库相关配置
+    db:
+      host: 127.0.0.1  # MySQL 机器 IP 和端口，默认 127.0.0.1:3306
+      username: miniblog # MySQL 用户名(建议授权最小权限集)
+      password: miniblog1234 # MySQL 用户密码
+      database: miniblog # miniblog 系统所用的数据库名
+      max-idle-connections: 100 # MySQL 最大空闲连接数，默认 100
+      max-open-connections: 100 # MySQL 最大打开的连接数，默认 100
+      max-connection-life-time: 10s # 空闲连接最大存活时间，默认 10s
+      log-level: 4 # GORM log level, 1: silent, 2:error, 3:warn, 4:info
+
+    # 日志配置
+    log:
+      disable-caller: false # 是否开启 caller，如果开启会在日志中显示调用日志所在的文件和行号
+      disable-stacktrace: false # 是否禁止在 panic 及以上级别打印堆栈信息
+      level: debug # 指定日志级别，可选值：debug, info, warn, error, dpanic, panic, fatal
+      format: console # 指定日志显示格式，可选值：console, json
+      output-paths: [/tmp/miniblog.log, stdout] # 指定日志输出位置，多个输出，用 `逗号 + 空格` 分开。stdout：标准输出，

@@ -14,6 +14,7 @@ include scripts/make-rules/common.mk
 include scripts/make-rules/tools.mk
 include scripts/make-rules/golang.mk
 include scripts/make-rules/generate.mk
+include scripts/make-rules/image.mk
 
 # ==============================================================================
 # Usage
@@ -22,8 +23,11 @@ define USAGE_OPTIONS
 
 Options:
   BINS             The binaries to build. Default is all of cmd.
-                   This option is available when using: make build/build.multiarch
+                   This option is available when using: make build
                    Example: make build BINS="miniblog test"
+  IMAGES           Backend images to make. Default is all of cmd.
+                   This option is available when using: make image/push
+                   Example: make image IMAGES="miniblog"
   VERSION          The version information compiled into binaries.
                    The default is obtained from gsemver or git.
   V                Set to 1 enable verbose build. Default is 0.
@@ -61,6 +65,14 @@ deps: ## 安装依赖，例如：生成需要的代码、安装需要的工具�
 .PHONY: build
 build: go.tidy  ## 编译源码，依赖 tidy 目标自动添加/移除依赖包.
 	@$(MAKE) go.build
+
+.PHONY: image
+image: ## 构建 Docker 镜像.
+	@$(MAKE) image.build
+
+.PHONY: push
+push: ## 构建 Docker 镜像，并 push 到镜像仓库.
+	@$(MAKE) image.push
 
 ## --------------------------------------
 ## Cleanup
