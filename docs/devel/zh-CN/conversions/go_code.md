@@ -627,7 +627,7 @@ regexp.MustCompile(`\.`)
 
 ```go
 // bad
-if len(slice) = 0 {
+if len(slice) == 0 {
     // normal code
 }
 
