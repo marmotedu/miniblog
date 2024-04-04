@@ -9,6 +9,7 @@ import (
 	reflect "reflect"
 
 	gomock "github.com/golang/mock/gomock"
+	store "github.com/marmotedu/miniblog/internal/miniblog/store"
 	model "github.com/marmotedu/miniblog/internal/pkg/model"
 	gorm "gorm.io/gorm"
 )
@@ -51,10 +52,10 @@ func (mr *MockIStoreMockRecorder) DB() *gomock.Call {
 }
 
 // Posts mocks base method.
-func (m *MockIStore) Posts() PostStore {
+func (m *MockIStore) Posts() store.PostStore {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Posts")
-	ret0, _ := ret[0].(PostStore)
+	ret0, _ := ret[0].(store.PostStore)
 	return ret0
 }
 
@@ -65,10 +66,10 @@ func (mr *MockIStoreMockRecorder) Posts() *gomock.Call {
 }
 
 // Users mocks base method.
-func (m *MockIStore) Users() UserStore {
+func (m *MockIStore) Users() store.UserStore {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "Users")
-	ret0, _ := ret[0].(UserStore)
+	ret0, _ := ret[0].(store.UserStore)
 	return ret0
 }
 
