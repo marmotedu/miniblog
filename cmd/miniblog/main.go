@@ -17,6 +17,6 @@ import (
 func main() {
 	command := miniblog.NewMiniBlogCommand()
 	if err := command.Execute(); err != nil {
-		os.Exit(1)
+		os.Exit(2)
 	}
 }
