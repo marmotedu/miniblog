@@ -51,7 +51,7 @@ func Init(opts *Options) {
 	std = NewLogger(opts)
 }
 
-// NewLogger 根据传入的 opts 创建 Logger.
+// NewLogger 根据传入的 opts 创建一个自定义的 *zapLogger.
 func NewLogger(opts *Options) *zapLogger {
 	if opts == nil {
 		opts = NewOptions()

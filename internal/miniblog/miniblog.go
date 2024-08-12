@@ -21,13 +21,12 @@ import (
 	"github.com/spf13/viper"
 	"google.golang.org/grpc"
 
+	"github.com/common-nighthawk/go-figure"
 	"github.com/marmotedu/miniblog/internal/miniblog/controller/v1/user"
 	"github.com/marmotedu/miniblog/internal/miniblog/store"
-	"github.com/marmotedu/miniblog/internal/pkg/known"
 	"github.com/marmotedu/miniblog/internal/pkg/log"
 	mw "github.com/marmotedu/miniblog/internal/pkg/middleware"
 	pb "github.com/marmotedu/miniblog/pkg/proto/miniblog/v1"
-	"github.com/marmotedu/miniblog/pkg/token"
 	"github.com/marmotedu/miniblog/pkg/version/verflag"
 )
 
@@ -90,13 +89,17 @@ Find more miniblog information at:
 
 // run 函数是实际的业务代码入口函数.
 func run() error {
+	// 服务启动打印banner
+	banner := figure.NewColorFigure("miniblog", "", "green", true)
+	banner.Print()
+
 	// 初始化 store 层
 	if err := initStore(); err != nil {
 		return err
 	}
 
 	// 设置 token 包的签发密钥，用于 token 包 token 的签发和解析
-	token.Init(viper.GetString("jwt-secret"), known.XUsernameKey)
+	//token.Init(viper.GetString("jwt-secret"), known.XUsernameKey)
 
 	// 设置 Gin 模式
 	gin.SetMode(viper.GetString("runmode"))
@@ -117,7 +120,7 @@ func run() error {
 	httpsrv := startInsecureServer(g)
 
 	// 创建并运行 HTTPS 服务器
-	httpssrv := startSecureServer(g)
+	//httpssrv := startSecureServer(g)
 
 	// 创建并运行 GRPC 服务器
 	grpcsrv := startGRPCServer()
@@ -140,10 +143,10 @@ func run() error {
 		log.Errorw("Insecure Server forced to shutdown", "err", err)
 		return err
 	}
-	if err := httpssrv.Shutdown(ctx); err != nil {
-		log.Errorw("Secure Server forced to shutdown", "err", err)
-		return err
-	}
+	//if err := httpssrv.Shutdown(ctx); err != nil {
+	//	log.Errorw("Secure Server forced to shutdown", "err", err)
+	//	return err
+	//}
 
 	grpcsrv.GracefulStop()
 

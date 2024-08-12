@@ -19,6 +19,7 @@ func RequestID() gin.HandlerFunc {
 		requestID := c.Request.Header.Get(known.XRequestIDKey)
 
 		if requestID == "" {
+			// 创建一个 32 位的 UUID
 			requestID = uuid.New().String()
 		}
 
@@ -27,6 +28,7 @@ func RequestID() gin.HandlerFunc {
 
 		// 将 RequestID 保存在 HTTP 返回头中，Header 的键为 `X-Request-ID`
 		c.Writer.Header().Set(known.XRequestIDKey, requestID)
+		// Next() 方法之前的代码会在到达请求方法前执行
 		c.Next()
 	}
 }

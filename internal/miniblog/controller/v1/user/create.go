@@ -22,12 +22,14 @@ func (ctrl *UserController) Create(c *gin.Context) {
 	log.C(c).Infow("Create user function called")
 
 	var r v1.CreateUserRequest
+	// 将请求 Body 中的参数直接解析到 v1.CreateUserRequest 结构体中
 	if err := c.ShouldBindJSON(&r); err != nil {
 		core.WriteResponse(c, errno.ErrBind, nil)
 
 		return
 	}
 
+	// 参数校验
 	if _, err := govalidator.ValidateStruct(r); err != nil {
 		core.WriteResponse(c, errno.ErrInvalidParameter.SetMessage(err.Error()), nil)
 

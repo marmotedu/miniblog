@@ -63,3 +63,5 @@ tags
 
 # Custom
 /_output
+
+cmd/miniblog/miniblog

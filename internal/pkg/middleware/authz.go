@@ -29,7 +29,9 @@ func Authz(a Auther) gin.HandlerFunc {
 
 		log.Debugw("Build authorize context", "sub", sub, "obj", obj, "act", act)
 		if allowed, _ := a.Authorize(sub, obj, act); !allowed {
+			// 未通过授权
 			core.WriteResponse(c, errno.ErrUnauthorized, nil)
+			// 在中间件中调用 Abort() 方法，会直接终止请求
 			c.Abort()
 			return
 		}
